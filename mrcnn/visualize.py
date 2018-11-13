@@ -81,7 +81,7 @@ def apply_mask(image, mask, color, alpha=0.5):
     return image
 
 
-def display_instances(image, boxes, masks, class_ids, class_names,
+def display_instances(root_dir,image_name, image, boxes, masks, class_ids, class_names,
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
                       show_mask=True, show_bbox=True,
@@ -98,6 +98,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     colors: (optional) An array or colors to use with each object
     captions: (optional) A list of strings to use as captions for each object
     """
+    #print("Running visualize script now")
     # Number of instances
     N = boxes.shape[0]
     if not N:
@@ -164,9 +165,13 @@ def display_instances(image, boxes, masks, class_ids, class_names,
             verts = np.fliplr(verts) - 1
             p = Polygon(verts, facecolor="none", edgecolor=color)
             ax.add_patch(p)
+
+    #print("Running visualize script now also")
     ax.imshow(masked_image.astype(np.uint8))
-    if auto_show:
-        plt.show()
+    plt.savefig(os.path.join(root_dir,"Converted_images\masked_"+image_name))
+    print(image_name+" Stored in folder Converted_images\n\n")
+    #if auto_show:
+        #plt.show()
 
 
 def display_differences(image,
