@@ -21,7 +21,7 @@ master_json_dict = {"info": info__dict, "images": [], "annotations": [], "licens
 
 #print(master_json_dict)
 annotation_count =1 
-for image_number in [2,12,22]:
+for image_number in range(400,430):
 	annotations_temp = {
 	"id": annotation_count ,
 	"image_id": image_number,
@@ -35,7 +35,7 @@ for image_number in [2,12,22]:
 	"id": image_number,
 	"width": 2000,
 	"height": 2000,
-	"file_name": "D:/AirSim/New/Images/Images_master/original_"+str(image_number)+".jpg",
+	"file_name": "D:/AirSim/New/Images/Images_master/image_"+str(image_number)+"_raw.png",
 	"license": 1,
 	"flickr_url": "none",
 	"coco_url": "none",
@@ -45,9 +45,9 @@ for image_number in [2,12,22]:
 	master_json_dict["images"].append(image_temp)
 	master_json_dict["annotations"].append(annotations_temp)
 
-print(master_json_dict["images"])
-print(master_json_dict["annotations"])
-file_path_for_json = "D:/AirSim/New/Images/coco/annotations/instances_train2014.json"
+#print(master_json_dict["images"])
+#print(master_json_dict["annotations"])
+file_path_for_json = "D:/AirSim/New/Images/coco/annotations/instances_val2014.json"
 with open(file_path_for_json, 'w') as data_file:
 	json.dump(master_json_dict,data_file)
 

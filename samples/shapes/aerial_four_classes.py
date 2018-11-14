@@ -199,14 +199,16 @@ class aerial_trains_Dataset(utils.Dataset):
 		#The actual unique image_id written in the json which can be used to call the correspoding original raw images of the format raw_image_1.png , where 1 is the image_id (image_number as called here)
         image_number = dataset_train.image_info[image_id]["id"]
         print("Doing image with image_id: ", dataset_train.image_info[image_id]["id"])
+        temp_class_id = []
         for annotation in dataset_train.image_info[image_id]["annotations"]:
             print("Current Annotation processed :", annotation)
             current_category_id = annotation["category_id"]
+            temp_class_id.append(current_category_id)
             # print("current_category_id = ", current_category_id)         
             current_object_name = categories_list[current_category_id-1]["name"]
             # print("current_object_name: ",current_object_name)
             # current_object_instance_number = object_counter_dict[current_object_name]
-            current_object_instance_number = annotation["id"]
+            current_object_instance_number = annotation["instance_number"]
            # print("current_object_instance_number", current_object_instance_number)
             # object_counter_dict[current_object_name] = object_counter_dict[current_object_name]+1
             #access the mask from filename of the object mask for that image	
@@ -223,7 +225,7 @@ class aerial_trains_Dataset(utils.Dataset):
                 #extracting class id from the coco dictionary of the json annotations
             else:
                 print("Mask file for image_number "+str(image_number)+" is missing from path: "+str(color_mask_filename))
-                        
+        print("Temp class id from list unpacking: ",temp_class_id)               
         #Commenting out all the old code for class ids to extract it from the list
         class_id = [dict['category_id'] for dict in dataset_train.image_info[image_id]["annotations"]]
         print(class_id)
@@ -298,9 +300,8 @@ dataset_val = aerial_trains_Dataset()
 dataset_val.load_coco(dataset_dir, "val", year = "2014",return_coco=True)
 #dataset_val.load_shapes(50, config.IMAGE_SHAPE[0], config.IMAGE_SHAPE[1])
 dataset_val.prepare()
-
-print(dataset_train.image_info)
-exit()
+# print(dataset_train.image_info[0:10])
+# exit()
 
 ### Exploring the structure of image_info to get class_ids
 
@@ -325,7 +326,7 @@ exit()
 
 
 #Load and display images of train with just single trains and masks
-image_ids = np.asarray([0,1,2])
+image_ids = np.asarray([91,11,42])
 print("image_ids: ",image_ids)
 for image_id in image_ids:
     image = dataset_train.load_image(image_id)
